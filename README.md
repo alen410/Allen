@@ -1,15 +1,14 @@
-# ¼ĞÃD
+# æ¨™é¡Œ
  
 
-NTU CS+X ¥ş°ê®L©u¾Ç°| ¸ê®Æ¬ì¾Çµ{¦¡³]­p<p>
-©m¦W:ÃCÃh½@<p>
-¾Ç¸¹:A4211050<p>
-¾Ç®Õ:¤¤°ê¤å¤Æ¤j¾Ç<p>
-¾Ç¨t:´Ë«O¨t¤­¦~¯Å<p>
-# Homework<p>
-[RMARKDOWN](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alen410/Allen/master/RMARKDOWN.html?token=AMRUMZZO37C7U6NRWYSRUY25E2UEG)
+NTU CS+X å…¨åœ‹å¤å­£å­¸é™¢ è³‡æ–™ç§‘å­¸ç¨‹å¼è¨­è¨ˆ<p>
+å§“å:é¡æ‡·ç‘¾<p>
+å­¸è™Ÿ:A4211050<p>
+å­¸æ ¡:ä¸­åœ‹æ–‡åŒ–å¤§å­¸<p>
+å­¸ç³»:æ£®ä¿ç³»äº”å¹´ç´š<p>
+# Homework[RMARKDOWN](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alen410/Allen/master/RMARKDOWN.html?token=AMRUMZZO37C7U6NRWYSRUY25E2UEG)
 # Lesson1<p>
-1. ¾Ç²ß¦p¦ó¨Ï¥ÎGitHub<p>2. ¦w¸ËR/Rstudio<p>3. Markdown<p>
+1. å­¸ç¿’å¦‚ä½•ä½¿ç”¨GitHub<p>2. å®‰è£R/Rstudio<p>3. Markdown<p>
 # Lesson2
 # Lesson3
 # Lesson4
