@@ -27,5 +27,3 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 # Week3
 # Lesson5
 # Lesson6
-
-
