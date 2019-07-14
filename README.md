@@ -18,7 +18,7 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 # Lesson2 (7/11)
 1.資料收集與清洗<p>2.爬蟲實作<p>
 ### Homweork
- [RMARKDOWN](https://github.com/MrXiaoChu/National-Summer-Academy/blob/master/Week1/108_%E5%85%A8%E5%9C%8B%E5%A4%8F%E5%AD%A3%E5%AD%B8%E9%99%A2_7%E6%9C%8811%E6%97%A5_Class2.html)
+ [RMARKDOWN](https://github.com/alen410/Allen/blob/master/Week1/108_%E5%85%A8%E5%9C%8B%E5%A4%8F%E5%AD%A3%E5%AD%B8%E9%99%A2_7%E6%9C%8811%E6%97%A5_Class2.html)
 
 # Week2
 # Lesson3 (7/15)
