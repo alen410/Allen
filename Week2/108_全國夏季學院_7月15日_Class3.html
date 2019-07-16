@@ -400,11 +400,8 @@ summary {
 <div id="section-7" class="section level4">
 <h4>資料來源受限於政府開放資料集完整性(有一些下載點掛掉了)，唯有2014年的資料仍完整</h4>
 </div>
-<div id="github.comalen410allenblobmaster" class="section level4">
-<h4>謝謝助教幫我把github.com/alen410/Allen/blob/master/這個錯誤的</h4>
-</div>
-<div id="alen410.github.ioallen-" class="section level4">
-<h4>網址修正成alen410.github.io/Allen/ 不然原本是錯誤的上船格式，再次謝謝助教!</h4>
+<div id="section-8" class="section level4">
+<h4>謝謝助教幫我把網址修正成可以正確顯示的網址，再次謝謝助教</h4>
 <pre class="r"><code># 預先安裝好分析環境(如果有函式庫無法導入就使用以下的程式碼)
 # install.packages(&quot;dplyr&quot;)
 # install.packages(&quot;tidyr&quot;)
@@ -418,7 +415,7 @@ summary {
 # install.packages(&quot;rmarkdown&quot;)
 # install.packages(&quot;knitr&quot;)</code></pre>
 </div>
-<div id="section-8" class="section level4">
+<div id="section-9" class="section level4">
 <h4>確認安裝套件版本</h4>
 <pre class="r"><code>packageVersion(&quot;dplyr&quot;)</code></pre>
 <pre><code>## [1] &#39;0.8.3&#39;</code></pre>
@@ -439,7 +436,7 @@ summary {
 <pre class="r"><code>packageVersion(&quot;rmarkdown&quot;)</code></pre>
 <pre><code>## [1] &#39;1.14&#39;</code></pre>
 </div>
-<div id="section-9" class="section level4">
+<div id="section-10" class="section level4">
 <h4>顯示必要資訊</h4>
 <pre class="r"><code>R.Version()</code></pre>
 <pre><code>## $platform
@@ -506,13 +503,13 @@ summary {
 ##  [9] knitr_1.23      stringr_1.4.0   xfun_0.8        digest_0.6.20  
 ## [13] evaluate_0.14</code></pre>
 <pre class="r"><code>Sys.time()</code></pre>
-<pre><code>## [1] &quot;2019-07-17 06:10:41 CST&quot;</code></pre>
+<pre><code>## [1] &quot;2019-07-17 06:14:13 CST&quot;</code></pre>
 <pre class="r"><code>gc() # 原來R語言有記憶體清理函式，慎用...。</code></pre>
 <pre><code>##           used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells  525751 28.1    1191314 63.7   621662 33.3
-## Vcells 1006954  7.7    8388608 64.0  1600594 12.3</code></pre>
+## Ncells  525750 28.1    1191311 63.7   621662 33.3
+## Vcells 1006924  7.7    8388608 64.0  1600594 12.3</code></pre>
 </div>
-<div id="section-10" class="section level4">
+<div id="section-11" class="section level4">
 <h4>導入函式庫</h4>
 <pre class="r"><code>library(&#39;dplyr&#39;)</code></pre>
 <pre><code>## 
@@ -550,7 +547,7 @@ library(&#39;scales&#39;)</code></pre>
 ##     col_factor</code></pre>
 <pre class="r"><code>library(&#39;stringr&#39;) # 方便易用的資料前處理工具</code></pre>
 </div>
-<div id="section-11" class="section level4">
+<div id="section-12" class="section level4">
 <h4>設置工作目錄，這屬於暫時性工作目錄，會依照檔案工作目錄變化來修改</h4>
 <pre class="r"><code>setwd(&quot;C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2&quot;)</code></pre>
 </div>
@@ -583,7 +580,7 @@ library(&#39;scales&#39;)</code></pre>
     encoding = &quot;BIG-5&quot;,
 )</code></pre>
 </div>
-<div id="section-12" class="section level4">
+<div id="section-13" class="section level4">
 <h4>預先觀看年度職災案例資料外觀</h4>
 <pre class="r"><code>head(job_disaster_case_compilation)</code></pre>
 <pre><code>##   縣市別       行業別         媒介物   災害類型 發生日期 死 傷
@@ -594,7 +591,7 @@ library(&#39;scales&#39;)</code></pre>
 ## 5 嘉義縣       製造業           其他 被夾、被捲 2014-1-8  1  0
 ## 6 桃園縣 批發及零售業 其他(營建機械) 墜落、滾落 2014-1-8  1  0</code></pre>
 </div>
-<div id="section-13" class="section level4">
+<div id="section-14" class="section level4">
 <h4>預先觀看職業災害統計行業別與受傷部位資料外觀</h4>
 <pre class="r"><code>head(injured_parts_statistics)</code></pre>
 <pre><code>##   年度 受傷部位           行業別 受傷部位次數
@@ -605,7 +602,7 @@ library(&#39;scales&#39;)</code></pre>
 ## 5 2014       頭       菸草製造業            0
 ## 6 2014       頭           紡織業           17</code></pre>
 </div>
-<div id="section-14" class="section level4">
+<div id="section-15" class="section level4">
 <h4>初步觀看年度職災案例資料維度</h4>
 <pre class="r"><code>summarise(
     job_disaster_case_compilation,
@@ -615,7 +612,7 @@ library(&#39;scales&#39;)</code></pre>
 <pre><code>##   observes_n variable_n
 ## 1        348          7</code></pre>
 </div>
-<div id="section-15" class="section level4">
+<div id="section-16" class="section level4">
 <h4>初步觀看職業災害統計行業別與受傷部位資料維度</h4>
 <pre class="r"><code>summarise(
     injured_parts_statistics,
@@ -628,18 +625,18 @@ library(&#39;scales&#39;)</code></pre>
 <div id="tidying-data" class="section level4">
 <h4>Tidying Data</h4>
 </div>
-<div id="section-16" class="section level4">
+<div id="section-17" class="section level4">
 <h4>年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細</h4>
 </div>
-<div id="section-17" class="section level4">
+<div id="section-18" class="section level4">
 <h4>因此這邊做一次預處理</h4>
 </div>
-<div id="section-18" class="section level4">
+<div id="section-19" class="section level4">
 <h4>將日期拿掉，只保留年份</h4>
 <pre class="r"><code>job_disaster_case_compilation$發生日期  &lt;-
     str_sub(job_disaster_case_compilation$發生日期, 1, 4)</code></pre>
 </div>
-<div id="section-19" class="section level4">
+<div id="section-20" class="section level4">
 <h4>觀看是否順利處理</h4>
 <pre class="r"><code>head(job_disaster_case_compilation)</code></pre>
 <pre><code>##   縣市別       行業別         媒介物   災害類型 發生日期 死 傷
@@ -650,13 +647,13 @@ library(&#39;scales&#39;)</code></pre>
 ## 5 嘉義縣       製造業           其他 被夾、被捲     2014  1  0
 ## 6 桃園縣 批發及零售業 其他(營建機械) 墜落、滾落     2014  1  0</code></pre>
 </div>
-<div id="section-20" class="section level4">
+<div id="section-21" class="section level4">
 <h4>由於資料品質優良，基本的資料前處理先到這邊</h4>
 </div>
 <div id="ggplot2" class="section level4">
 <h4>開始使用ggplot2做視覺化</h4>
 </div>
-<div id="section-21" class="section level4">
+<div id="section-22" class="section level4">
 <h4>先觀看職業災害每個案例受傷部位大多傷在哪些部位</h4>
 <pre class="r"><code>#freq &lt;- as.data.frame(table(injured_parts_statistics$受傷部位))[&quot;Freq&quot;]
 g &lt;- ggplot(injured_parts_statistics,
