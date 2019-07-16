@@ -22,6 +22,9 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 
 # Week2
 # Lesson3 (7/15)
+
+[RMARKDOWN](https://github.com/alen410/Allen/blob/master/Week2/108_%E5%85%A8%E5%9C%8B%E5%A4%8F%E5%AD%A3%E5%AD%B8%E9%99%A2_7%E6%9C%8815%E6%97%A5_Class3.html)
+
 # Lesson4 (7/18)
 
 # Week3
