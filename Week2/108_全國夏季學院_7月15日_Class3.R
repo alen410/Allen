@@ -1,0 +1,130 @@
+#這次會用到的資料集
+#年度職災案例彙編 https://data.gov.tw/dataset/6644
+#職業災害統計行業別與受傷部位統計數據 https://data.gov.tw/dataset/20592
+
+
+#為何使用這兩組資料集?
+#根據助教提點的兩點建議
+#1.說明很詳盡，可以利用 Rmd 的特性在程式碼的外面寫說明，不用寫成註解
+#2.兩個資料集沒有關聯很可惜
+#因此學生再次尋找了兩個可能有關聯的資料集
+#以職業災害為主題，學生曾在醫院做過志工，見過一些因為工作導致受傷的患者
+#因此兩利用這兩個資料集嘗試分析出我們需要關注的職業災害種類，也許能對社會有幫助
+#資料來源受限於政府開放資料集完整性(有一些下載點掛掉了)，唯有2014年的資料仍完整
+
+
+#預先安裝好分析環境(如果有函式庫無法導入就使用以下的程式碼)
+#install.packages("dplyr")
+#install.packages("tidyr")
+#install.packages("rvest")
+#install.packages("wordcloud")
+#install.packages("tidyverse")
+#install.packages("ggplot2")
+#install.packages("scales")
+#install.packages("stringr")
+#install.packages("rmarkdown")
+#install.packages("rmarkdown")
+#install.packages("knitr")
+
+
+#確認安裝套件版本
+packageVersion("dplyr")
+packageVersion("tidyr")
+packageVersion("rvest")
+packageVersion("tidyverse")
+packageVersion("wordcloud")
+packageVersion("ggplot2")
+packageVersion("scales")
+packageVersion("stringr")
+packageVersion("rmarkdown")
+
+#顯示必要資訊
+R.Version()
+sessionInfo()
+Sys.time()
+gc() #原來R語言有記憶體清理函式，慎用...。
+
+
+#導入函式庫
+library('dplyr')
+library('tidyr')
+library('rvest')
+library('tidyverse') #其實只要引入tidyverse庫就不用寫前三行了，不過就當作練習
+library('wordcloud')
+library('ggplot2')
+library('scales')
+library('stringr') #方便易用的資料前處理工具
+
+#設置工作目錄，這屬於暫時性工作目錄，會依照檔案工作目錄變化來修改
+setwd("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2")
+
+
+#在R語言中，如果資料是帶有繁體中文的，編碼建議使用BIG-5
+#然而UTF-8編碼目前會出錯，原因待查
+#年度職災案例彙編，編碼為BIG-5
+job_disaster_case_compilation <- read.table(
+    "年度職災案例彙編.csv",
+    header = TRUE,
+    sep = ",",
+    na.strings = c(" "),
+    row.names = NULL,
+    fill = TRUE,
+    encoding = "BIG-5",
+)
+
+
+#職業災害統計行業別與受傷部位統計數據，編碼為BIG-5
+injured_parts_statistics <- read.table(
+    "職業災害統計行業別與受傷部位統計數據.csv",
+    header = TRUE,
+    sep = ",",
+    na.strings = c(" "),
+    fill = TRUE,
+    encoding = "BIG-5",
+)
+
+
+#預先觀看年度職災案例資料外觀
+head(job_disaster_case_compilation)
+
+#預先觀看職業災害統計行業別與受傷部位資料外觀
+head(injured_parts_statistics)
+
+
+#初步觀看年度職災案例資料維度
+summarise(
+    job_disaster_case_compilation,
+    observes_n = n(),
+    variable_n = ncol(job_disaster_case_compilation)
+)
+
+
+#初步觀看職業災害統計行業別與受傷部位資料維度
+summarise(
+    injured_parts_statistics,
+    observes_n = n(),
+    variable_n = ncol(injured_parts_statistics)
+)
+
+
+#Tidying Data
+#年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細
+#因此這邊做一次預處理
+#將日期拿掉，只保留年份
+job_disaster_case_compilation$發生日期  <-
+    str_sub(job_disaster_case_compilation$發生日期, 1, 4)
+
+#觀看是否順利處理
+head(job_disaster_case_compilation)
+
+
+#由於資料品質優良，基本的資料前處理先到這邊
+#開始使用ggplot2做視覺化
+
+#先觀看職業災害每個案例受傷部位大多傷在哪些部位
+#freq <- as.data.frame(table(injured_parts_statistics$受傷部位))["Freq"]
+g <- ggplot(injured_parts_statistics,
+            aes(x = injured_parts_statistics$受傷部位))
+g + geom_bar(fill = "steelblue",
+             color = "blue",
+             width = 0.5)
