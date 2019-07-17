@@ -127,7 +127,7 @@ summarise(
 #年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細
 #因此這邊做一次預處理
 #將日期拿掉，只保留年份
-job_disaster_case_compilation$發生日期                                 <-
+job_disaster_case_compilation$發生日期                                    <-
     str_sub(job_disaster_case_compilation$發生日期, 1, 4)
 
 #觀看是否順利處理
@@ -164,14 +164,15 @@ g <- qplot(
     xlab = "地區",
     ylab = "計數",
     geom = "bar",
-    color = I("yellow")
+    color = I("yellow"),
+    fill = "limegreen"
 )
 g
 
 #用ggplot繪製histogram
 g <- ggplot(data = job_disaster_case_compilation,
             aes(x = job_disaster_case_compilation$縣市別))
-g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
+g + geom_histogram(stat = "count", fill = "olivedrab") + xlab("地區") + ylab("計數") +
     labs(title = "各地區發生「職業災害」的情況") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
@@ -180,7 +181,11 @@ g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
 #找出最危險職業
 top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
 ggplot(data = top_ten_fatal) +
-    geom_bar(mapping = aes(x = top_ten_fatal$行業別), color = "orange1") +
+    geom_bar(
+        mapping = aes(x = top_ten_fatal$行業別),
+        color = "orange1",
+        fill = "yellow2"
+    ) +
     xlab("行業別") +
     ylab("案例") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))

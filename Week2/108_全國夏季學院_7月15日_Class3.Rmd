@@ -168,7 +168,10 @@ g + geom_bar(fill = "steelblue",
              width = 0.5) +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+
 #### 股(大腿)受傷的次數最高
+
+
 
 
 #### 先看各地區發生「職業災害」的情況
@@ -192,7 +195,8 @@ g <- qplot(
     xlab = "地區",
     ylab = "計數",
     geom = "bar",
-    color = I("yellow")
+    color = I("yellow"),
+    fill = "limegreen"
 )
 g
 ```
@@ -201,10 +205,11 @@ g
 ```{r}
 g <- ggplot(data = job_disaster_case_compilation,
             aes(x = job_disaster_case_compilation$縣市別))
-g + geom_histogram(stat = "count", color = "orange1") + xlab("地區") + ylab("計數") +
+g + geom_histogram(stat = "count", color = "orange1",fill = "olivedrab") + xlab("地區") + ylab("計數") +
     labs(title = "各地區發生「職業災害」的情況") + 
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+
 #### 發生職業災害的案例統計數: 第一名桃園市，第二名台中市, 第三名高雄市
 
 
@@ -214,7 +219,8 @@ g + geom_histogram(stat = "count", color = "orange1") + xlab("地區") + ylab("�
 ```{r}
 top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
 ggplot(data = top_ten_fatal) + 
-    geom_bar(mapping = aes(x = top_ten_fatal$行業別), color = "orange1") +
+    geom_bar(mapping = aes(x = top_ten_fatal$行業別), color = "orange1",
+             fill = "yellow2") +
     xlab("行業別") +
     ylab("案例") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
