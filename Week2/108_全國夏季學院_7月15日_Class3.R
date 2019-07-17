@@ -124,7 +124,7 @@ summarise(
 #年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細
 #因此這邊做一次預處理
 #將日期拿掉，只保留年份
-job_disaster_case_compilation$發生日期                       <-
+job_disaster_case_compilation$發生日期                                <-
     str_sub(job_disaster_case_compilation$發生日期, 1, 4)
 
 #觀看是否順利處理
@@ -140,7 +140,8 @@ g <- ggplot(injured_parts_statistics,
             aes(x = injured_parts_statistics$受傷部位))
 g + geom_bar(fill = "steelblue",
              color = "blue",
-             width = 0.5)
+             width = 0.5) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 #先看各地區發生「職業災害」的情況
@@ -168,13 +169,30 @@ g
 g <- ggplot(data = job_disaster_case_compilation,
             aes(x = job_disaster_case_compilation$縣市別))
 g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
-    labs(title = "各地區發生「職業災害」的情況")
+    labs(title = "各地區發生「職業災害」的情況") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 
 #找出最危險職業
 top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
-ggplot(data = top_ten_fatal) + 
-    geom_bar(mapping = aes(x = top_ten_fatal$行業別)) +
+ggplot(data = top_ten_fatal) +
+    geom_bar(mapping = aes(x = top_ten_fatal$行業別), color = "orange1") +
     xlab("行業別") +
-    ylab("案例")
+    ylab("案例") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+#使用散點圖查看在台灣各地區比較流行從事何種職業
+g <- ggplot(
+    data = job_disaster_case_compilation,
+    aes(
+        job_disaster_case_compilation$"縣市別",
+        job_disaster_case_compilation$"行業別"
+    )
+)
+g + xlab("縣市別") + ylab("行業別") +
+    geom_jitter(size = 3, color = "palegreen3") +
+    labs(title = "台灣各地區比較流行從事何種職業") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))

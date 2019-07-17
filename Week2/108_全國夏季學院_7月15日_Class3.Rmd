@@ -152,8 +152,11 @@ g <- ggplot(injured_parts_statistics,
             aes(x = injured_parts_statistics$受傷部位))
 g + geom_bar(fill = "steelblue",
              color = "blue",
-             width = 0.5)
+             width = 0.5) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+#### 股(大腿)受傷的次數最高
+
 
 #### 先看各地區發生「職業災害」的情況
 ```{r}
@@ -185,8 +188,9 @@ g
 ```{r}
 g <- ggplot(data = job_disaster_case_compilation,
             aes(x = job_disaster_case_compilation$縣市別))
-g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
-    labs(title = "各地區發生「職業災害」的情況")
+g + geom_histogram(stat = "count", color = "orange1") + xlab("地區") + ylab("計數") +
+    labs(title = "各地區發生「職業災害」的情況") + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 #### 發生職業災害的案例統計數: 第一名桃園市，第二名台中市, 第三名高雄市
 
@@ -197,10 +201,27 @@ g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
 ```{r}
 top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
 ggplot(data = top_ten_fatal) + 
-    geom_bar(mapping = aes(x = top_ten_fatal$行業別)) +
+    geom_bar(mapping = aes(x = top_ten_fatal$行業別), color = "orange1") +
     xlab("行業別") +
-    ylab("案例")
+    ylab("案例") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
 #### 營造業發生最多的職業災害，其次為製造業
+
+#### 使用散點圖查看在台灣各地區比較流行從事何種職業
+
+```{r}
+g <- ggplot(
+    data = job_disaster_case_compilation,
+    aes(
+        job_disaster_case_compilation$"縣市別",
+        job_disaster_case_compilation$"行業別"
+    )
+)
+g + xlab("縣市別") + ylab("行業別") +
+    geom_jitter(size = 3, color = "palegreen3") +
+    labs(title = "台灣各地區比較流行從事何種職業") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
 
