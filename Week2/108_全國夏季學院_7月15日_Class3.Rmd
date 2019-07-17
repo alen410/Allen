@@ -155,7 +155,52 @@ g + geom_bar(fill = "steelblue",
              width = 0.5)
 ```
 
+#### 先看各地區發生「職業災害」的情況
+```{r}
+table(job_disaster_case_compilation$縣市別)
+```
+
+#### 閱讀過說明手冊後，作者表示qplot()用法類似內建的plot()，在功能比plot()多
+#### 繪圖過程較簡單易上手，但作者還是高度建議應該好好學習ggplot()的用法，才能繪製
+#### 出更複雜詳細的圖表
+
+
+#### 用qplot繪製Bar Chart
+
+
+```{r}
+g <- qplot(
+    data = job_disaster_case_compilation,
+    job_disaster_case_compilation$縣市別,
+    main = "各地區發生「職業災害」的情況",
+    xlab = "地區",
+    ylab = "計數",
+    geom = "bar",
+    color = I("yellow")
+)
+g
+```
+
+#### 用ggplot繪製histogram
+```{r}
+g <- ggplot(data = job_disaster_case_compilation,
+            aes(x = job_disaster_case_compilation$縣市別))
+g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
+    labs(title = "各地區發生「職業災害」的情況")
+```
+#### 發生職業災害的案例統計數: 第一名桃園市，第二名台中市, 第三名高雄市
 
 
 
+
+#### 找出最危險職業
+```{r}
+top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
+ggplot(data = top_ten_fatal) + 
+    geom_bar(mapping = aes(x = top_ten_fatal$行業別)) +
+    xlab("行業別") +
+    ylab("案例")
+```
+
+#### 營造業發生最多的職業災害，其次為製造業
 

@@ -25,7 +25,9 @@
 #install.packages("rmarkdown")
 #install.packages("rmarkdown")
 #install.packages("knitr")
-
+#install.packages("colormap")
+#install.packages("wesanderson")
+#install.packages("RColorBrewer")
 
 #確認安裝套件版本
 packageVersion("dplyr")
@@ -37,6 +39,12 @@ packageVersion("ggplot2")
 packageVersion("scales")
 packageVersion("stringr")
 packageVersion("rmarkdown")
+packageVersion("colormap")
+packageVersion("wesanderson")
+packageVersion("RColorBrewer")
+
+
+
 
 #顯示必要資訊
 R.Version()
@@ -54,6 +62,11 @@ library('wordcloud')
 library('ggplot2')
 library('scales')
 library('stringr') #方便易用的資料前處理工具
+library('RColorBrewer') #關於顏色的佈景主題
+library('colormap') #關於顏色的佈景主題
+library("wesanderson") #關於顏色的佈景主題
+
+
 
 #設置工作目錄，這屬於暫時性工作目錄，會依照檔案工作目錄變化來修改
 setwd("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2")
@@ -111,7 +124,7 @@ summarise(
 #年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細
 #因此這邊做一次預處理
 #將日期拿掉，只保留年份
-job_disaster_case_compilation$發生日期  <-
+job_disaster_case_compilation$發生日期                       <-
     str_sub(job_disaster_case_compilation$發生日期, 1, 4)
 
 #觀看是否順利處理
@@ -120,11 +133,48 @@ head(job_disaster_case_compilation)
 
 #由於資料品質優良，基本的資料前處理先到這邊
 #開始使用ggplot2做視覺化
-
 #先觀看職業災害每個案例受傷部位大多傷在哪些部位
+
 #freq <- as.data.frame(table(injured_parts_statistics$受傷部位))["Freq"]
 g <- ggplot(injured_parts_statistics,
             aes(x = injured_parts_statistics$受傷部位))
 g + geom_bar(fill = "steelblue",
              color = "blue",
              width = 0.5)
+
+
+#先看各地區發生「職業災害」的情況
+table(job_disaster_case_compilation$縣市別)
+
+
+#閱讀過說明手冊後，作者表示qplot()用法類似內建的plot()，在功能比plot()多
+#繪圖過程較簡單易上手，但作者還是高度建議應該好好學習ggplot()的用法，才能繪製
+#出更複雜詳細的圖表
+
+
+#用qplot繪製Bar Chart
+g <- qplot(
+    data = job_disaster_case_compilation,
+    job_disaster_case_compilation$縣市別,
+    main = "各地區發生「職業災害」的情況",
+    xlab = "地區",
+    ylab = "計數",
+    geom = "bar",
+    color = I("yellow")
+)
+g
+
+#用ggplot繪製histogram
+g <- ggplot(data = job_disaster_case_compilation,
+            aes(x = job_disaster_case_compilation$縣市別))
+g + geom_histogram(stat = "count") + xlab("地區") + ylab("計數") +
+    labs(title = "各地區發生「職業災害」的情況")
+
+
+
+#找出最危險職業
+top_ten_fatal <- data.frame(job_disaster_case_compilation)["行業別"]
+ggplot(data = top_ten_fatal) + 
+    geom_bar(mapping = aes(x = top_ten_fatal$行業別)) +
+    xlab("行業別") +
+    ylab("案例")
