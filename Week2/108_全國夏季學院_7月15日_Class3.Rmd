@@ -23,20 +23,25 @@ knitr::opts_chunk$set(echo = TRUE)
 #### 資料來源受限於政府開放資料集完整性(有一些下載點掛掉了)，唯有2014年的資料仍完整
 #### 謝謝助教幫我把網址修正成可以正確顯示的網址，再次謝謝助教
 
+## 預先安裝好分析環境(如果有函式庫無法導入就使用以下的程式碼)
 
 ```{r}
-# 預先安裝好分析環境(如果有函式庫無法導入就使用以下的程式碼)
-# install.packages("dplyr")
-# install.packages("tidyr")
-# install.packages("rvest")
-# install.packages("wordcloud")
-# install.packages("tidyverse")
-# install.packages("ggplot2")
-# install.packages("scales")
-# install.packages("stringr")
-# install.packages("rmarkdown")
-# install.packages("rmarkdown")
-# install.packages("knitr")
+#install.packages("dplyr")
+#install.packages("tidyr")
+#install.packages("rvest")
+#install.packages("wordcloud")
+#install.packages("tidyverse")
+#install.packages("ggplot2")
+#install.packages("scales")
+#install.packages("stringr")
+#install.packages("rmarkdown")
+#install.packages("rmarkdown")
+#install.packages("knitr")
+#install.packages("colormap")
+#install.packages("wesanderson")
+#install.packages("RColorBrewer")
+#install.packages("treemapify")
+#treemapify函式庫已經預告下個版本會合併入ggplot2內，不建議再使用
 
 ```
 #### 確認安裝套件版本
@@ -50,6 +55,10 @@ packageVersion("ggplot2")
 packageVersion("scales")
 packageVersion("stringr")
 packageVersion("rmarkdown")
+packageVersion("colormap")
+packageVersion("wesanderson")
+packageVersion("RColorBrewer")
+packageVersion("treemapify")
 ```
 #### 顯示必要資訊
 ```{r}
@@ -63,11 +72,15 @@ gc() # 原來R語言有記憶體清理函式，慎用...。
 library('dplyr')
 library('tidyr')
 library('rvest')
-library('tidyverse') # 其實只要引入tidyverse庫就不用寫前三行了，不過就當作練習
+library('tidyverse') #其實只要引入tidyverse庫就不用寫前三行了，不過就當作練習
 library('wordcloud')
 library('ggplot2')
 library('scales')
-library('stringr') # 方便易用的資料前處理工具
+library('stringr') #方便易用的資料前處理工具
+library('RColorBrewer') #關於顏色的佈景主題
+library('colormap') #關於顏色的佈景主題
+library('wesanderson') #關於顏色的佈景主題
+library('treemapify') #矩形式樹狀結構繪圖法
 ```
 
 #### 設置工作目錄，這屬於暫時性工作目錄，會依照檔案工作目錄變化來修改
@@ -224,4 +237,31 @@ g + xlab("縣市別") + ylab("行業別") +
     labs(title = "台灣各地區比較流行從事何種職業") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+
+#### 繪製矩形式樹狀結構，使用新函式庫，然後這種圖畫的速度超慢
+#### 各個行業容易受傷的部位與受傷的頻率
+```{r}
+
+g <- ggplot(
+    injured_parts_statistics,
+    aes(
+        area = injured_parts_statistics$受傷部位次數,
+        fill =  受傷部位,
+        label = injured_parts_statistics$行業別
+    )
+)
+g + geom_treemap() + geom_treemap_text(
+    color = "black",
+    place = "centre",
+    grow = TRUE,
+    reflow = TRUE
+) +
+    theme(legend.position = "bottom") +
+    labs(title = "各個行業容易受傷的部位與受傷的頻率")
+
+```
+
+
+
+
 

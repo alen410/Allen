@@ -28,6 +28,8 @@
 #install.packages("colormap")
 #install.packages("wesanderson")
 #install.packages("RColorBrewer")
+#install.packages("treemapify")
+#treemapify函式庫已經預告下個版本會合併入ggplot2內，不建議再使用
 
 #確認安裝套件版本
 packageVersion("dplyr")
@@ -42,7 +44,7 @@ packageVersion("rmarkdown")
 packageVersion("colormap")
 packageVersion("wesanderson")
 packageVersion("RColorBrewer")
-
+packageVersion("treemapify")
 
 
 
@@ -64,7 +66,8 @@ library('scales')
 library('stringr') #方便易用的資料前處理工具
 library('RColorBrewer') #關於顏色的佈景主題
 library('colormap') #關於顏色的佈景主題
-library("wesanderson") #關於顏色的佈景主題
+library('wesanderson') #關於顏色的佈景主題
+library('treemapify') #矩形式樹狀結構繪圖法
 
 
 
@@ -124,7 +127,7 @@ summarise(
 #年度職災案例的日期部分比職業災害統計行業別與受傷部位還要詳細
 #因此這邊做一次預處理
 #將日期拿掉，只保留年份
-job_disaster_case_compilation$發生日期                                <-
+job_disaster_case_compilation$發生日期                                 <-
     str_sub(job_disaster_case_compilation$發生日期, 1, 4)
 
 #觀看是否順利處理
@@ -196,3 +199,23 @@ g + xlab("縣市別") + ylab("行業別") +
     geom_jitter(size = 3, color = "palegreen3") +
     labs(title = "台灣各地區比較流行從事何種職業") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+#繪製矩形式樹狀結構，使用新函式庫，然後這種圖畫的速度超慢
+#各個行業容易受傷的部位與受傷的頻率
+g <- ggplot(
+    injured_parts_statistics,
+    aes(
+        area = injured_parts_statistics$受傷部位次數,
+        fill =  受傷部位,
+        label = injured_parts_statistics$行業別
+    )
+)
+g + geom_treemap() + geom_treemap_text(
+    color = "black",
+    place = "centre",
+    grow = TRUE,
+    reflow = TRUE
+) +
+    theme(legend.position = "bottom") +
+    labs(title = "各個行業容易受傷的部位與受傷的頻率")
