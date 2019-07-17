@@ -22,7 +22,7 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 
 # Week2
 # Lesson3 (7/15)
-
+1.ggplot2函式庫的練習<p>
  [RMARKDOWN](https://alen410.github.io/Allen/Week2/108_全國夏季學院_7月15日_Class3.html)
 
 
