@@ -23,12 +23,12 @@
 #install.packages("scales")
 #install.packages("stringr")
 #install.packages("rmarkdown")
-#install.packages("rmarkdown")
 #install.packages("knitr")
 #install.packages("colormap")
 #install.packages("wesanderson")
 #install.packages("RColorBrewer")
 #install.packages("treemapify")
+#install.packages("miniCRAN")
 #treemapify函式庫已經預告下個版本會合併入ggplot2內，不建議再使用
 #install.packages("D:/CRAN/tmcn_0.2-12.zip",
 #                 repos = NULL, type = "win.binary")
@@ -57,8 +57,8 @@ packageVersion("devtools")
 packageVersion("dplyr")
 packageVersion("ggplot2")
 packageVersion("jiebaR")
+packageVersion("miniCRAN")
 packageVersion("rmarkdown")
-packageVersion("rvest")
 packageVersion("rvest")
 packageVersion("scales")
 packageVersion("slam")
@@ -88,7 +88,7 @@ library('dplyr')
 library('ggplot2')
 library('jiebaR')
 library('jiebaRD')
-library('rvest')
+library('miniCRAN')
 library('rvest')
 library('scales')
 library('slam')
@@ -132,6 +132,8 @@ injured_parts_statistics <- read.table(
 
 
 
+
+
 #解釋為何要先用舊的資料集，因為先求有再求好，求得好後再求精。
 
 #職業災害致命物文字雲繪製
@@ -139,7 +141,6 @@ word_cloud_corpus <- data.frame(job_disaster_case_compilation$媒介物)
 
 #變更欄位名稱
 colnames(word_cloud_corpus) <- c("媒介物")
-#word_cloud_corpus <- toString(word_cloud_corpus$媒介物)
 
 #用table()函數幫我統計出頻率，再用sort()函數幫我做降冪排列
 word_cloud_corpus <-
@@ -164,7 +165,7 @@ wordcloud(
     colors = brewer.pal(12, "Paired"),
 )
 
-#文字雲中的色彩參數可以透過該指令查詢更換，建議colorblind盡量選FALSE的
+#文字雲中的色彩參數可以透過該指令查詢更換
 brewer.pal.info
 
 #可以看出藍色字體之外的物品都是比較容易造成職業災害的物品
@@ -177,7 +178,7 @@ word_cloud_corpus <- data.frame(job_disaster_case_compilation$災害類型)
 colnames(word_cloud_corpus) <- c("災害類型")
 
 #移除標點符號
-word_cloud_corpus$災害類型     <-
+word_cloud_corpus$災害類型      <-
     str_remove_all(word_cloud_corpus$災害類型, "[、]")
 
 
@@ -201,3 +202,56 @@ wordcloud(
     #要旋轉90度的比例，看個人喜好，設為0也可以
     colors = brewer.pal(12, "Paired"),
 )
+
+
+#R語言套件管理工具CRAN的文字雲
+#幾乎每個方便好用的函式庫大多都是由其他函式庫組合而成
+#此類的相依性關係也可以繪製成文字雲
+pkgDep("devtools", availPkgs = cranJuly2014)
+
+#例如devtools是重要的套件包，因此帶有21個相依套件
+pkg_dep_graph <- makeDepGraph("devtools",
+                              enhances = TRUE,
+                              availPkgs = cranJuly2014)
+plot(pkg_dep_graph,
+     legendPosition = c(-1, 1),
+     vertex.size = 10) #vertex.size是主要套件包的圖示尺寸
+
+
+#這次使用到的函式庫
+used_pkg <- c(
+    "NLP",
+    "RColorBrewer",
+    "colormap",
+    "devtools",
+    "dplyr",
+    "ggplot2",
+    "jiebaR",
+    "miniCRAN",
+    "rmarkdown",
+    "rvest",
+    "scales",
+    "slam",
+    "stringr",
+    "tidyr",
+    "tidyverse",
+    "tm",
+    "tmcn",
+    "treemapify",
+    "wesanderson",
+    "wordcloud"
+)
+
+#有一些函式庫會沒辦法在cranJuly2014內找到
+pkgDep(used_pkg, availPkgs = cranJuly2014)
+
+
+#原因待查，就先畫圖
+pkg_dep_graph <- makeDepGraph(used_pkg,
+                              enhances = TRUE,
+                              availPkgs = cranJuly2014)
+plot(pkg_dep_graph,
+     legendPosition = c(-1, 1),
+     vertex.size = 10) #vertex.size是主要套件包的圖示尺寸
+
+#使用的函式庫越多，就會越像「相依性地獄」

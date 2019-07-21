@@ -50,8 +50,8 @@ packageVersion("devtools")
 packageVersion("dplyr")
 packageVersion("ggplot2")
 packageVersion("jiebaR")
+packageVersion("miniCRAN")
 packageVersion("rmarkdown")
-packageVersion("rvest")
 packageVersion("rvest")
 packageVersion("scales")
 packageVersion("slam")
@@ -73,6 +73,7 @@ gc() #原來R語言有記憶體清理函式，慎用...。
 ```
 #### 導入函式庫
 ```{r}
+#導入函式庫
 library('NLP')
 library('RColorBrewer') #關於顏色的佈景主題
 library('colormap') #關於顏色的佈景主題
@@ -81,14 +82,14 @@ library('dplyr')
 library('ggplot2')
 library('jiebaR')
 library('jiebaRD')
-library('rvest')
+library('miniCRAN')
 library('rvest')
 library('scales')
 library('slam')
 library('stringr') #方便易用的資料前處理工具
 library('tidyr')
 library('tidyverse') #其實只要引入tidyverse庫就不用寫前三行了，不過就當作練習
-library('tm')
+library('tm') #英文文本挖掘工具包
 library('tmcn') #中文文本挖掘工具包
 library('treemapify') #矩形式樹狀結構繪圖法
 library('wesanderson') #關於顏色的佈景主題
@@ -231,6 +232,72 @@ wordcloud(
 ```
 
 
+#### R語言套件管理工具CRAN的文字雲
+#### 幾乎每個方便好用的函式庫大多都是由其他函式庫組合而成
+#### 此類的相依性關係也可以繪製成文字雲
+```{r}
+pkgDep("devtools", availPkgs = cranJuly2014)
 
 
 
+
+```
+
+#### 例如devtools是重要的套件包，因此帶有21個相依套件
+
+
+```{r}
+pkg_dep_graph <- makeDepGraph("devtools",
+                              enhances = TRUE,
+                              availPkgs = cranJuly2014)
+plot(pkg_dep_graph,legendPosition = c(-1, 1),
+     vertex.size = 10) #vertex.size是主要套件包的圖示尺寸
+```
+
+
+#### 這次使用到的函式庫
+```{r}
+used_pkg <- c(
+    "NLP",
+    "RColorBrewer",
+    "colormap",
+    "devtools",
+    "dplyr",
+    "ggplot2",
+    "jiebaR",
+    "miniCRAN",
+    "rmarkdown",
+    "rvest",
+    "scales",
+    "slam",
+    "stringr",
+    "tidyr",
+    "tidyverse",
+    "tm",
+    "tmcn",
+    "treemapify",
+    "wesanderson",
+    "wordcloud"
+)
+```
+
+
+#### 有一些函式庫會沒辦法在cranJuly2014內找到
+```{r}
+pkgDep(used_pkg, availPkgs = cranJuly2014)
+```
+
+
+#### 原因待查，就先畫圖
+```{r}
+
+pkg_dep_graph <- makeDepGraph(used_pkg,
+                              enhances = TRUE,
+                              availPkgs = cranJuly2014)
+plot(pkg_dep_graph,
+     legendPosition = c(-1, 1),
+     vertex.size = 10) #vertex.size是主要套件包的圖示尺寸
+```
+
+
+#### 使用的函式庫越多，就會越像「相依性地獄」
