@@ -298,3 +298,20 @@ segmented_article <- segment(code = motor_article_all,
                              jiebar = word_segment,
                              mod = "hmm")
 print(segmented_article)
+
+
+#可以看出未經過資料清洗過的文章，斷出來的片段也很糟
+#進行資料清洗
+
+motor_article_all <- tolower(motor_article_all)
+motor_article_all <- str_remove_all(motor_article_all,"[0-9]")
+motor_article_all <- str_remove_all(motor_article_all,"[a-z]")
+motor_article_all <- gsub("[[:punct:][:blank:]]+", " ", motor_article_all)
+
+#這樣資料就去除了數字、英文、標點符號、多餘的空格了
+
+#在做一次斷詞
+segmented_article <- segment(code = motor_article_all,
+                             jiebar = word_segment,
+                             mod = "hmm")
+print(segmented_article)
