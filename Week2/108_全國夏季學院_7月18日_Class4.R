@@ -95,7 +95,7 @@ library('slam')
 library('stringr') #方便易用的資料前處理工具
 library('tidyr')
 library('tidyverse') #其實只要引入tidyverse庫就不用寫前三行了，不過就當作練習
-library('tm')
+library('tm') #英文文本挖掘工具包
 library('tmcn') #中文文本挖掘工具包
 library('treemapify') #矩形式樹狀結構繪圖法
 library('wesanderson') #關於顏色的佈景主題
@@ -132,8 +132,6 @@ injured_parts_statistics <- read.table(
 
 
 
-
-
 #解釋為何要先用舊的資料集，因為先求有再求好，求得好後再求精。
 
 #職業災害致命物文字雲繪製
@@ -150,9 +148,9 @@ word_cloud_corpus <- as.data.frame(word_cloud_corpus)
 colnames(word_cloud_corpus) <- c("媒介物", "頻率")
 
 #固定亂數種子
-set.seed(0)
+set.seed(146)
 
-#繪製基本文字雲
+#繪製基本文字雲1
 wordcloud(
     words = word_cloud_corpus$媒介物,
     freq = word_cloud_corpus$頻率,
@@ -161,14 +159,45 @@ wordcloud(
     max.words = 100,
     #會決定文字雲外觀的參數，要適當調整
     random.order = FALSE,
-    rot.per = 0.35,
-    colors = brewer.pal(8, "Dark2")
+    rot.per = 0,
+    #要旋轉90度的比例，看個人喜好，設為0也可以
+    colors = brewer.pal(12, "Paired"),
 )
 
+#文字雲中的色彩參數可以透過該指令查詢更換，建議colorblind盡量選FALSE的
+brewer.pal.info
+
+#可以看出藍色字體之外的物品都是比較容易造成職業災害的物品
 
 
+#職業災害類型文字雲繪製
+word_cloud_corpus <- data.frame(job_disaster_case_compilation$災害類型)
+
+#變更欄位名稱
+colnames(word_cloud_corpus) <- c("災害類型")
+
+#移除標點符號
+word_cloud_corpus$災害類型     <-
+    str_remove_all(word_cloud_corpus$災害類型, "[、]")
 
 
+#用table()函數幫我統計出頻率，再用sort()函數幫我做降冪排列
+word_cloud_corpus <-
+    sort(table(word_cloud_corpus$災害類型), decreasing = TRUE)
+word_cloud_corpus <- as.data.frame(word_cloud_corpus)
+colnames(word_cloud_corpus) <- c("災害類型", "頻率")
 
 
-
+#繪製基本文字雲2
+wordcloud(
+    words = word_cloud_corpus$災害類型,
+    freq = word_cloud_corpus$頻率,
+    min.freq = 1,
+    #會決定文字雲外觀的參數，要適當調整
+    max.words = 100,
+    #會決定文字雲外觀的參數，要適當調整
+    random.order = FALSE,
+    rot.per = 0,
+    #要旋轉90度的比例，看個人喜好，設為0也可以
+    colors = brewer.pal(12, "Paired"),
+)
