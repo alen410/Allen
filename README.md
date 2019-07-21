@@ -30,7 +30,7 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 1.Text mining<p>
 2.Word Cloud<p>
 3.Term Document Matrix<p>
-4.TF-IDF
+4.TF-IDF<p>
  [RMARKDOWN](https://alen410.github.io/Allen/Week2/108_全國夏季學院_7月18日_Class4.html)
 
 
