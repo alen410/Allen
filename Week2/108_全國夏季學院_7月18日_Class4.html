@@ -1802,11 +1802,11 @@ summary {
 ##  [9] knitr_1.23      stringr_1.4.0   xfun_0.8        digest_0.6.20  
 ## [13] evaluate_0.14</code></pre>
 <pre class="r"><code>Sys.time()</code></pre>
-<pre><code>## [1] &quot;2019-07-22 05:25:32 CST&quot;</code></pre>
+<pre><code>## [1] &quot;2019-07-22 06:20:28 CST&quot;</code></pre>
 <pre class="r"><code>gc() #原來R語言有記憶體清理函式，慎用...。</code></pre>
 <pre><code>##          used (Mb) gc trigger (Mb) max used (Mb)
-## Ncells 516021 27.6    1156074 61.8   621662 33.3
-## Vcells 986494  7.6    8388608 64.0  1600594 12.3</code></pre>
+## Ncells 516085 27.6    1155902 61.8   621662 33.3
+## Vcells 986937  7.6    8388608 64.0  1600594 12.3</code></pre>
 </div>
 <div id="section-12" class="section level4">
 <h4>導入函式庫</h4>
@@ -3471,6 +3471,77 @@ print(segmented_article)</code></pre>
 ## [2833] &quot;在&quot;       &quot;發動機&quot;   &quot;和&quot;       &quot;三元&quot;     &quot;摧化&quot;     &quot;裝置&quot;    
 ## [2839] &quot;之間&quot;     &quot;如果&quot;     &quot;要&quot;       &quot;我&quot;       &quot;選&quot;       &quot;我&quot;      
 ## [2845] &quot;肯定&quot;     &quot;選發動機&quot; &quot;了&quot;       &quot;哈哈&quot;</code></pre>
+</div>
+<div id="document-term-matrix" class="section level4">
+<h4>繪製Document-term matrix</h4>
+</div>
+<div id="section-36" class="section level4">
+<h4>注意這裡要使用的是最原始的語料庫</h4>
+</div>
+<div id="function" class="section level4">
+<h4>要處理的重複動作太多就做成function</h4>
+</div>
+<div id="rjava" class="section level4">
+<h4>不知道R語言是否有像Java語言一樣有檢察用的標籤可以讓我知道</h4>
+</div>
+<div id="functionoverridefunction" class="section level4">
+<h4>自定義的function名稱有沒有Override到既有的function</h4>
+</div>
+<div id="function-1" class="section level4">
+<h4>文字前處理用function</h4>
+<pre class="r"><code>Text_preprocess &lt;- function(article) {
+    article &lt;- tolower(article)
+    article &lt;- str_remove_all(article, &quot;[0-9]&quot;)
+    article &lt;- str_remove_all(article, &quot;[a-z]&quot;)
+    article &lt;- gsub(&quot;[[:punct:][:blank:]]+&quot;, &quot; &quot;, article)
+    return(article)
+}
+
+motor_article_1 &lt;- Text_preprocess(motor_article_1)
+motor_article_2 &lt;- Text_preprocess(motor_article_2)
+motor_article_3 &lt;- Text_preprocess(motor_article_3)
+motor_article_4 &lt;- Text_preprocess(motor_article_4)
+motor_article_5 &lt;- Text_preprocess(motor_article_5)
+
+motor_article_all &lt;- c(
+    motor_article_1,
+    motor_article_2,
+    motor_article_3,
+    motor_article_4,
+    motor_article_5
+)
+
+segmented_article_corpus &lt;- Corpus(VectorSource(motor_article_all))
+tdm &lt;- TermDocumentMatrix(segmented_article_corpus,
+                          control = list(wordLengths = c(2, 15)))
+inspect(tdm)</code></pre>
+<pre><code>## &lt;&lt;TermDocumentMatrix (terms: 190, documents: 5)&gt;&gt;
+## Non-/sparse entries: 193/757
+## Sparsity           : 80%
+## Maximal term length: 5
+## Weighting          : term frequency (tf)
+## Sample             :
+##             Docs
+## Terms        1 2 3 4 5
+##   正齒輪     0 0 2 0 0
+##   多效齒輪油 0 0 3 0 0
+##   例如       1 0 0 0 1
+##   相當於     0 0 2 0 0
+##   除了       0 0 2 0 0
+##   高溫       0 1 0 0 1
+##   斜齒輪     0 0 2 0 0
+##   添加劑     0 1 1 0 0
+##   螺旋齒輪   0 0 2 0 0
+##   變速齒輪   0 0 2 0 0</code></pre>
+</div>
+<div id="docs" class="section level4">
+<h4>該矩陣的Docs是代表輸入的文章數量</h4>
+</div>
+<div id="stop-words" class="section level4">
+<h4>由於未做Stop Words(停用詞)的清除</h4>
+</div>
+<div id="terms" class="section level4">
+<h4>因此連「例如」「除了」「相當於」都被判定為Terms</h4>
 </div>
 </div>
 </div>

@@ -178,7 +178,7 @@ word_cloud_corpus <- data.frame(job_disaster_case_compilation$災害類型)
 colnames(word_cloud_corpus) <- c("災害類型")
 
 #移除標點符號
-word_cloud_corpus$災害類型        <-
+word_cloud_corpus$災害類型         <-
     str_remove_all(word_cloud_corpus$災害類型, "[、]")
 
 
@@ -261,24 +261,34 @@ plot(pkg_dep_graph,
 
 #將文字檔案讀入 https://forum.jorsindo.com/portal.php
 
-motor_article_1 <- 
-    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/1.txt")
+motor_article_1 <-
+    readLines(
+        "C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/1.txt"
+    )
 motor_article_1 <- toString(motor_article_1)
 
-motor_article_2 <- 
-    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/2.txt")
+motor_article_2 <-
+    readLines(
+        "C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/2.txt"
+    )
 motor_article_2 <- toString(motor_article_2)
 
-motor_article_3 <- 
-    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/3.txt")
+motor_article_3 <-
+    readLines(
+        "C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/3.txt"
+    )
 motor_article_3 <- toString(motor_article_3)
 
-motor_article_4 <- 
-    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/4.txt")
+motor_article_4 <-
+    readLines(
+        "C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/4.txt"
+    )
 motor_article_4 <- toString(motor_article_4)
 
-motor_article_5 <- 
-    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/5.txt")
+motor_article_5 <-
+    readLines(
+        "C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/5.txt"
+    )
 motor_article_5 <- toString(motor_article_5)
 
 
@@ -304,14 +314,54 @@ print(segmented_article)
 #進行資料清洗
 
 motor_article_all <- tolower(motor_article_all)
-motor_article_all <- str_remove_all(motor_article_all,"[0-9]")
-motor_article_all <- str_remove_all(motor_article_all,"[a-z]")
-motor_article_all <- gsub("[[:punct:][:blank:]]+", " ", motor_article_all)
+motor_article_all <- str_remove_all(motor_article_all, "[0-9]")
+motor_article_all <- str_remove_all(motor_article_all, "[a-z]")
+motor_article_all <-
+    gsub("[[:punct:][:blank:]]+", " ", motor_article_all)
 
 #這樣資料就去除了數字、英文、標點符號、多餘的空格了
 
-#在做一次斷詞
+#再做一次斷詞
 segmented_article <- segment(code = motor_article_all,
                              jiebar = word_segment,
                              mod = "hmm")
 print(segmented_article)
+
+
+
+#繪製Document-term matrix
+#注意這裡要使用的是最原始的語料庫
+#要處理的重複動作太多就做成function
+#不知道R語言是否有像Java語言一樣有檢察用的標籤可以讓我知道
+#自定義的function名稱有沒有Override到既有的function
+#文字前處理用function
+Text_preprocess <- function(article) {
+    article <- tolower(article)
+    article <- str_remove_all(article, "[0-9]")
+    article <- str_remove_all(article, "[a-z]")
+    article <- gsub("[[:punct:][:blank:]]+", " ", article)
+    return(article)
+}
+
+motor_article_1 <- Text_preprocess(motor_article_1)
+motor_article_2 <- Text_preprocess(motor_article_2)
+motor_article_3 <- Text_preprocess(motor_article_3)
+motor_article_4 <- Text_preprocess(motor_article_4)
+motor_article_5 <- Text_preprocess(motor_article_5)
+
+motor_article_all <- c(
+    motor_article_1,
+    motor_article_2,
+    motor_article_3,
+    motor_article_4,
+    motor_article_5
+)
+
+segmented_article_corpus <- Corpus(VectorSource(motor_article_all))
+tdm <- TermDocumentMatrix(segmented_article_corpus,
+                          control = list(wordLengths = c(3, 15)))
+inspect(tdm)
+
+#該矩陣的Docs是代表輸入的文章數量
+#由於未做Stop Words(停用詞)的清除
+#因此連「例如」「除了」「相當於」都被判定為Terms

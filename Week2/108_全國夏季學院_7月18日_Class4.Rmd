@@ -369,6 +369,41 @@ print(segmented_article)
 ```
 
 
+#### 繪製Document-term matrix
+#### 注意這裡要使用的是最原始的語料庫
+#### 要處理的重複動作太多就做成function
+#### 不知道R語言是否有像Java語言一樣有檢察用的標籤可以讓我知道
+#### 自定義的function名稱有沒有Override到既有的function
+#### 文字前處理用function
+```{r}
+Text_preprocess <- function(article) {
+    article <- tolower(article)
+    article <- str_remove_all(article, "[0-9]")
+    article <- str_remove_all(article, "[a-z]")
+    article <- gsub("[[:punct:][:blank:]]+", " ", article)
+    return(article)
+}
 
+motor_article_1 <- Text_preprocess(motor_article_1)
+motor_article_2 <- Text_preprocess(motor_article_2)
+motor_article_3 <- Text_preprocess(motor_article_3)
+motor_article_4 <- Text_preprocess(motor_article_4)
+motor_article_5 <- Text_preprocess(motor_article_5)
 
+motor_article_all <- c(
+    motor_article_1,
+    motor_article_2,
+    motor_article_3,
+    motor_article_4,
+    motor_article_5
+)
 
+segmented_article_corpus <- Corpus(VectorSource(motor_article_all))
+tdm <- TermDocumentMatrix(segmented_article_corpus,
+                          control = list(wordLengths = c(2, 15)))
+inspect(tdm)
+```
+
+#### 該矩陣的Docs是代表輸入的文章數量
+#### 由於未做Stop Words(停用詞)的清除
+#### 因此連「例如」「除了」「相當於」都被判定為Terms
