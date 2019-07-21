@@ -178,7 +178,7 @@ word_cloud_corpus <- data.frame(job_disaster_case_compilation$災害類型)
 colnames(word_cloud_corpus) <- c("災害類型")
 
 #移除標點符號
-word_cloud_corpus$災害類型      <-
+word_cloud_corpus$災害類型        <-
     str_remove_all(word_cloud_corpus$災害類型, "[、]")
 
 
@@ -255,3 +255,46 @@ plot(pkg_dep_graph,
      vertex.size = 10) #vertex.size是主要套件包的圖示尺寸
 
 #使用的函式庫越多，就會越像「相依性地獄」
+
+
+#TF-IDF相關知識練習
+
+#將文字檔案讀入 https://forum.jorsindo.com/portal.php
+
+motor_article_1 <- 
+    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/1.txt")
+motor_article_1 <- toString(motor_article_1)
+
+motor_article_2 <- 
+    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/2.txt")
+motor_article_2 <- toString(motor_article_2)
+
+motor_article_3 <- 
+    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/3.txt")
+motor_article_3 <- toString(motor_article_3)
+
+motor_article_4 <- 
+    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/4.txt")
+motor_article_4 <- toString(motor_article_4)
+
+motor_article_5 <- 
+    readLines("C:/Users/user/Documents/GitHub/National-Summer-Academy/Week2/小老婆汽機車資訊網語料庫/5.txt")
+motor_article_5 <- toString(motor_article_5)
+
+
+#使用jiebaR斷詞然後轉為文字矩陣
+#先串接全部的文章
+
+word_segment <- worker()
+motor_article_all <- paste(
+    motor_article_1,
+    motor_article_2,
+    motor_article_3,
+    motor_article_4,
+    motor_article_5
+)
+
+segmented_article <- segment(code = motor_article_all,
+                             jiebar = word_segment,
+                             mod = "hmm")
+print(segmented_article)
