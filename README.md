@@ -35,8 +35,8 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
  
 # Week3
 Final project<p>
-[RMARKDOWN](https://alen410.github.io/Allen/Week3/Twitter-sentiment-analysis-using-R，With-Sentiment140-dataset.html)
-[PDF檔案](https://github.com/alen410/Allen/blob/master/Week/Twitter%20sentiment%20analysis%20using%20R%20with%20Sentiment140%20dataset.pdf)
+[RMARKDOWN](https://alen410.github.io/Allen/Week3/Twitter-sentiment-analysis-using-R，With-Sentiment140-dataset.html)<p>
+[PDF檔案](Week3/Twitter%20sentiment%20analysis%20using%20R%20with%20Sentiment140%20dataset.pdf)
 
 
 # Lesson5
