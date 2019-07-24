@@ -32,11 +32,12 @@ NTU CS+X 全國夏季學院 資料科學程式設計<p>
 3.Term Document Matrix<p>
 4.TF-IDF<p>
  [RMARKDOWN](https://alen410.github.io/Allen/Week2/108_全國夏季學院_7月18日_Class4.html)
-
-
+ 
 # Week3
 Final project<p>
 [RMARKDOWN](https://alen410.github.io/Allen/Week3/Twitter-sentiment-analysis-using-R，With-Sentiment140-dataset.html)
+[PDF檔案](https://alen410.github.io/Allen/Week2/Twitter sentiment analysis using R with Sentiment140 dataset.pdf)
+
 
 # Lesson5
 # Lesson6
