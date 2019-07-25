@@ -46,6 +46,7 @@ library('questionr')
 library('miniUI')
 library('shiny')
 library('purrrlyr')
+library('wordcloud')
 suppressMessages(library('dplyr')) 
 
 ```
@@ -154,6 +155,10 @@ training_data <- training_data[complete.cases(training_data),]
 #### 參考資料:https://stackoverflow.com/questions/4862178/remove-rows-with-all-or-some-nas-missing-values-in-data-frame
 
 
+
+
+
+
 #### 機器學習的典型流程
 ```{r}
 knitr::include_graphics("3.PNG")
@@ -202,6 +207,25 @@ dtm_train <- create_dtm(it_train, vectorizer)
 dtm_test <- create_dtm(it_test, vectorizer)
 ```
 
+
+#### 文字雲
+```{r}
+wordcloud(
+    words = vocab$term,
+    freq = vocab$term_count,
+    min.freq = 10,
+    #會決定文字雲外觀的參數，要適當調整
+    max.words = 100,
+    #會決定文字雲外觀的參數，要適當調整
+    random.order = FALSE,
+    rot.per = 0,
+    #要旋轉90度的比例，看個人喜好，設為0也可以
+    colors = brewer.pal(12, "Paired"),
+)
+```
+
+
+
 #### 建立TF-IDF物件
 ```{r}
 tfidf <- TfIdf$new()
@@ -211,6 +235,7 @@ tfidf <- TfIdf$new()
 ```{r}
 dtm_train_tfidf <- fit_transform(dtm_train, tfidf)
 dtm_test_tfidf <- fit_transform(dtm_test, tfidf)
+dtm_train_tfidf@Dimnames[[2]]
 ```
 
 
